@@ -1,0 +1,191 @@
+Personal Expense Tracker – Project Report
+1. Abstract
+
+The Personal Expense Tracker is a web-based application developed using React.js, Context API, Chart.js, and Tailwind CSS. It enables users to manage and visualize their personal finances by logging daily transactions, categorizing expenses, and monitoring income versus expenditures. The application focuses on a clean, intuitive interface, responsive design, and persistent client-side state management through LocalStorage. Users can easily add, edit, and delete expenses, categorize them, and see graphical insights via charts.
+
+
+2. Introduction
+
+Personal financial management is critical for tracking income and controlling expenses. Manual tracking methods are prone to errors and lack real-time insights. This project introduces a Personal Expense Tracker, which automates and simplifies financial monitoring. It provides a user-friendly interface for recording expenses, categorizing spending habits, and visualizing data trends over time.
+
+The application is implemented using modern web technologies with React Hooks for state management, Context API for global state, Chart.js for visualization, and Tailwind CSS for responsive styling.
+
+3. Objectives
+
+The main objectives of the Personal Expense Tracker are:
+
+Record and manage expenses – Users can add, edit, or delete expense entries.
+Categorize transactions – Expenses can be classified into categories like Food, Travel, Bills, Shopping, and Others.
+Track income and balance – Users can input income, and the app calculates remaining balance.
+Data visualization – Provide pie charts showing category-wise expenses.
+Responsive design – Accessible on mobile, tablet, and desktop.
+Persistent storage – Maintain expense and income data even after browser reloads using LocalStorage.
+Interactive filters – Users can filter expenses by category for focused analysis.
+
+4. Literature Review / Existing System
+
+Traditional methods of expense tracking include manual bookkeeping, spreadsheets, or mobile apps. Limitations of these methods:
+
+Manual methods are error-prone and time-consuming.
+Spreadsheet tracking requires technical knowledge and lacks interactive visualizations.
+Existing mobile apps may require cloud storage, subscription fees, or complex workflows.
+
+This project addresses these issues by providing a free, client-side, lightweight web application with interactive features like charts, filters, and instant balance calculations without any backend.
+
+
+5. Methodology
+
+The project uses the Agile development approach, dividing the application into reusable components:
+
+Frontend:
+React.js for UI and component-based architecture.
+Tailwind CSS for responsive and clean UI.
+Chart.js for category-wise data visualization.
+State Management:
+Context API for managing global state (expenses, income, filters).
+React Hooks (useState, useEffect) for component-level state and side-effects.
+Persistent Storage:
+LocalStorage for storing expenses and income locally.
+Features:
+Add/Edit/Delete expenses.
+Input income and calculate balance.
+Category filtering.
+Display summary cards (Total Income, Total Expenses, Balance).
+Pie chart of expenses by category.
+
+
+6. Code
+Context – ExpenseContext.jsx
+import React, { createContext, useState, useEffect } from "react";
+import { saveExpenses, loadExpenses } from "../utils/storage";
+
+export const ExpenseContext = createContext();
+
+export const ExpenseProvider = ({ children }) => {
+  const [expenses, setExpenses] = useState([]);
+  const [income, setIncome] = useState(0);
+  const [filterCategory, setFilterCategory] = useState("All");
+
+  useEffect(() => {
+    const saved = loadExpenses();
+    setExpenses(saved.expenses || []);
+    setIncome(saved.income || 0);
+  }, []);
+
+  useEffect(() => {
+    saveExpenses({ expenses, income });
+  }, [expenses, income]);
+
+  const addOrEditExpense = (expense) => {
+    setExpenses((prev) => {
+      const exists = prev.find((e) => e.id === expense.id);
+      if (exists) return prev.map((e) => (e.id === expense.id ? expense : e));
+      return [...prev, expense];
+    });
+  };
+
+  const deleteExpense = (id) => setExpenses((prev) => prev.filter((e) => e.id !== id));
+
+  return (
+    <ExpenseContext.Provider value={{
+      expenses, addOrEditExpense, deleteExpense,
+      income, setIncome, filterCategory, setFilterCategory
+    }}>
+      {children}
+    </ExpenseContext.Provider>
+  );
+};
+
+ExpenseForm.jsx (Add/Edit)
+import React, { useState, useEffect, useContext } from "react";
+import { ExpenseContext } from "../context/ExpenseContext";
+
+function ExpenseForm({ expenseToEdit, setExpenseToEdit }) {
+  const { addOrEditExpense } = useContext(ExpenseContext);
+  const [description, setDescription] = useState("");
+  const [amount, setAmount] = useState("");
+  const [category, setCategory] = useState("Food");
+
+  useEffect(() => {
+    if (expenseToEdit) {
+      setDescription(expenseToEdit.description);
+      setAmount(expenseToEdit.amount);
+      setCategory(expenseToEdit.category);
+    }
+  }, [expenseToEdit]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const expense = {
+      id: expenseToEdit ? expenseToEdit.id : Date.now(),
+      description: description.trim(),
+      amount: Number(amount),
+      category
+    };
+    if (!expense.description || expense.amount <= 0) return;
+    addOrEditExpense(expense);
+    setDescription(""); setAmount(""); setCategory("Food");
+    setExpenseToEdit(null);
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="flex flex-col gap-4 p-4 bg-gray-100 rounded-lg shadow-sm">
+      <input type="text" placeholder="Description" value={description} onChange={(e)=>setDescription(e.target.value)} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"/>
+      <input type="number" placeholder="Amount" value={amount} onChange={(e)=>setAmount(e.target.value)} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300"/>
+      <select value={category} onChange={(e)=>setCategory(e.target.value)} className="p-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-300">
+        <option value="Food">Food</option><option value="Travel">Travel</option>
+        <option value="Bills">Bills</option><option value="Shopping">Shopping</option>
+        <option value="Other">Other</option>
+      </select>
+      <button type="submit" className="bg-blue-500 hover:bg-blue-600 text-white p-2 rounded transition">
+        {expenseToEdit ? "Update Expense" : "Add Expense"}
+      </button>
+    </form>
+  );
+}
+
+export default ExpenseForm;
+
+
+7. Output Snapshots
+
+(Here, include screenshots of your running app. Examples to include):
+
+Dashboard with Summary Cards
+Adding a new expense
+Editing an expense
+Pie chart of expenses by category
+Category filter applied
+Income and Balance calculation
+
+(In a Word/PDF submission, you can paste 4–6 images of your app.)
+
+8. Results & Analysis
+The app correctly adds, edits, and deletes expenses.
+Income input dynamically updates balance.
+Category filters work instantly.
+Pie chart accurately shows category-wise expense distribution.
+LocalStorage ensures data persists after closing the browser.
+UI is responsive on mobile, tablet, and desktop.
+Using Context API simplifies global state management across components.
+
+Observations:
+
+Editing functionality improves user experience.
+Real-time balance visualization helps in budgeting.
+Adding filters allows targeted analysis of spending patterns.
+
+
+9. Conclusion
+
+The Personal Expense Tracker successfully fulfills the objectives: it provides an intuitive, responsive, and interactive interface for managing personal finances. The use of React.js, Context API, Chart.js, Tailwind CSS, and LocalStorage ensures a modern, lightweight, and fully client-side solution.
+
+Future enhancements may include:
+
+Monthly/yearly summaries
+Exporting reports as PDF/CSV
+Recurring expenses
+Cloud synchronization for multi-device access
+
+The project demonstrates practical implementation of state management, data visualization, and UI/UX design principles in React.
+
