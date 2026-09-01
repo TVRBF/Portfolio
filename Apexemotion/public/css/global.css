@@ -1,0 +1,18 @@
+/* Global styles for shared tweaks */
+html, body {
+  scroll-behavior: smooth;
+}
+
+/* Sticky footer: always pinned to bottom */
+.sticky-footer {
+  position: sticky;
+  bottom: 0;
+  background: rgba(15, 23, 42, 0.85); /* slate-900/85 */
+  backdrop-filter: blur(6px);
+}
+
+/* Simple focus ring */
+:focus-visible {
+  outline: 2px solid #14b8a6; /* teal-500 */
+  outline-offset: 2px;
+}

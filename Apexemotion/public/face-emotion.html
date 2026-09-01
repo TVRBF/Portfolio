@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApexEmotion — Live Face Emotion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/global.css" />
+</head>
+<body class="min-h-screen bg-slate-900 text-white">
+<header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur border-b border-slate-700">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="./index.html" class="text-xl font-bold">ApexEmotion</a>
+    <nav class="hidden md:flex gap-6">
+       <a class="hover:text-teal-300" href="./index.html">Home</a>
+        <a class="hover:text-teal-300" href="./chat.html">Chat</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./memory.html">Memory</a>
+        <a class="hover:text-teal-300" href="./risk.html">Risk Engine</a>
+      <a class="hover:text-teal-300" href="./alerts.html">Alerts</a>
+<a class="hover:text-teal-300" href="./analytics.html">Analytics</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./login.html">Login</a>
+        <a class="hover:text-teal-300" href="./register.html">Register</a>
+</nav>
+  </div>
+</header>
+
+<main class="max-w-3xl mx-auto px-4 py-12">
+  <h1 class="text-3xl font-bold">Live Facial Emotion</h1>
+  <p class="mt-2 text-slate-300">Enable your camera to analyze one visible face at controlled intervals.</p>
+
+  <section class="mt-6 p-6 rounded-xl bg-slate-800/70 border border-slate-700">
+    <div class="relative overflow-hidden rounded-xl bg-black aspect-video">
+      <video id="faceCamera" class="w-full h-full object-cover" autoplay playsinline muted></video>
+      <canvas id="faceCaptureCanvas" class="hidden"></canvas>
+    </div>
+
+    <div class="mt-5 flex items-center justify-between gap-4 flex-wrap">
+      <div>
+        <h2 class="text-xl font-semibold">📷 Live Face Emotion</h2>
+        <p id="faceStatus" class="mt-2 text-slate-300">Camera Off</p>
+      </div>
+      <button id="faceCameraBtn" class="px-5 py-3 rounded-lg bg-teal-500 text-slate-900 font-semibold hover:bg-teal-400">
+        Start Camera
+      </button>
+    </div>
+
+    <div class="mt-6 p-5 rounded-lg bg-slate-900/70 border border-slate-700">
+      <p class="text-sm text-slate-400">Detected Emotion</p>
+      <p id="faceEmotion" class="mt-2 text-2xl font-bold">—</p>
+      <p id="faceConfidence" class="mt-1 text-slate-300">Waiting for a face...</p>
+      <div class="mt-3 h-3 bg-slate-700 rounded-full overflow-hidden">
+        <div id="faceConfidenceBar" class="h-full bg-teal-400 transition-all duration-500" style="width:0%"></div>
+      </div>
+      <p id="faceProvider" class="mt-3 text-xs text-slate-500"></p>
+    </div>
+
+    <p class="mt-4 text-xs text-slate-500">
+      Privacy: camera access is active only while this feature is running. Frames are sent only for facial-expression analysis and are not stored by ApexEmotion.
+    </p>
+  </section>
+
+  <section class="mt-6 p-4 rounded bg-slate-800/70 border border-slate-700">
+    <p class="text-slate-400">Logs:</p>
+    <div id="faceLogs" class="mt-2 text-slate-300 text-sm space-y-1"></div>
+  </section>
+</main>
+
+  <footer class="sticky-footer">
+    <div class="max-w-6xl mx-auto px-4 py-3 text-center border-t border-slate-700">
+      <p class="text-slate-300">This is a chatbot made by Team Apex</p>
+      <p class="text-slate-400 mt-1">© 2025 ApexEmotion. All rights reserved.</p>
+    </div>
+  </footer>
+<script type="module" src="../js/ui.js"></script>
+<script type="module" src="../js/face_emotion.js"></script>
+</body>
+</html>

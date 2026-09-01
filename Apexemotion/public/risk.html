@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApexEmotion — Risk Engine</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/global.css" />
+</head>
+<body class="min-h-screen bg-slate-900 text-white">
+<header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur border-b border-slate-700">
+  <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="./index.html" class="text-xl font-bold">ApexEmotion</a>
+    <nav class="hidden md:flex gap-6">
+      <a class="hover:text-teal-300" href="./index.html">Home</a>
+        <a class="hover:text-teal-300" href="./chat.html">Chat</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./memory.html">Memory</a>
+        <a class="hover:text-teal-300" href="./risk.html">Risk Engine</a>
+      <a class="hover:text-teal-300" href="./alerts.html">Alerts</a>
+<a class="hover:text-teal-300" href="./analytics.html">Analytics</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./login.html">Login</a>
+        <a class="hover:text-teal-300" href="./register.html">Register</a>
+
+  </div>
+</header>
+
+<main class="max-w-6xl mx-auto px-4 py-8">
+  <div class="mb-8">
+    <p class="text-teal-300 text-sm font-semibold uppercase tracking-wider">Phase 8</p>
+    <h1 class="text-3xl font-bold mt-2">Distress / Risk Engine</h1>
+    <p class="text-slate-400 mt-2">An explainable engineering risk score from emotional persistence and distress indicators.</p>
+  </div>
+
+  <section class="grid lg:grid-cols-2 gap-6">
+    <div class="rounded-xl bg-slate-800 border border-slate-700 p-5">
+      <h2 class="text-lg font-semibold">Analyze observations</h2>
+      <p class="text-sm text-slate-400 mt-1">One JSON array item per observation.</p>
+
+      <label class="block mt-4 text-sm text-slate-300">Observations</label>
+      <textarea id="observations" rows="9"
+        class="mt-1 w-full px-3 py-2 rounded bg-slate-900 border border-slate-700 font-mono text-sm">[
+  {"emotion":"sadness","confidence":0.90,"source":"text"},
+  {"emotion":"sadness","confidence":0.88,"source":"voice"},
+  {"emotion":"neutral","confidence":0.85,"source":"face"},
+  {"emotion":"joy","confidence":0.82,"source":"text"}
+]</textarea>
+
+      <label class="block mt-4 text-sm text-slate-300">Distress text (optional)</label>
+      <textarea id="distressText" rows="3" placeholder="Example: I am overwhelmed and can't cope."
+        class="mt-1 w-full px-3 py-2 rounded bg-slate-900 border border-slate-700"></textarea>
+
+      <label class="block mt-4 text-sm text-slate-300">Temporal window (minutes)</label>
+      <input id="window" type="number" min="1" max="1440" value="30"
+        class="mt-1 w-full px-3 py-2 rounded bg-slate-900 border border-slate-700" />
+
+      <button id="analyze" class="mt-5 w-full px-4 py-2 rounded bg-teal-500 text-slate-900 font-semibold">
+        Analyze Risk
+      </button>
+      <p id="error" class="mt-3 text-sm text-red-300"></p>
+    </div>
+
+    <div class="rounded-xl bg-slate-800 border border-slate-700 p-5">
+      <h2 class="text-lg font-semibold">Current risk state</h2>
+      <div id="result" class="mt-5 text-slate-400">Run an analysis to see the result.</div>
+    </div>
+  </section>
+
+  <section class="mt-6 rounded-xl bg-slate-800 border border-slate-700 p-5">
+    <div class="flex items-center justify-between">
+      <h2 class="text-lg font-semibold">Risk history</h2>
+      <button id="refresh" class="text-sm text-teal-300">Refresh</button>
+    </div>
+    <div id="history" class="mt-4 space-y-3"></div>
+  </section>
+</main>
+
+<script type="module" src="../js/risk.js"></script>
+</body>
+</html>

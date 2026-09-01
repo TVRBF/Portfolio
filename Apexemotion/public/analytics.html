@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ApexEmotion — Emotion Analytics</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="../css/global.css">
+</head>
+<body class="min-h-screen bg-slate-900 text-white">
+<header class="sticky top-0 z-40 bg-slate-900/90 backdrop-blur border-b border-slate-700">
+<div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+<a href="./index.html" class="text-xl font-bold">ApexEmotion</a>
+<nav class="hidden md:flex gap-6">
+ <a class="hover:text-teal-300" href="./index.html">Home</a>
+        <a class="hover:text-teal-300" href="./chat.html">Chat</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./memory.html">Memory</a>
+        <a class="hover:text-teal-300" href="./risk.html">Risk Engine</a>
+      <a class="hover:text-teal-300" href="./alerts.html">Alerts</a>
+<a class="hover:text-teal-300" href="./analytics.html">Analytics</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./login.html">Login</a>
+        <a class="hover:text-teal-300" href="./register.html">Register</a>
+
+</nav></div></header>
+<main class="max-w-7xl mx-auto px-4 py-8">
+<div class="flex flex-wrap items-end justify-between gap-4">
+<div><p class="text-teal-300 text-sm font-semibold uppercase tracking-wider">Phase 10</p>
+<h1 class="text-3xl font-bold mt-2">Emotion Analytics Dashboard</h1>
+<p class="text-slate-400 mt-2">Live summaries calculated from stored emotion, risk, and alert records.</p></div>
+<div><label class="text-xs text-slate-400">Window
+<select id="hours" class="ml-2 bg-slate-800 border border-slate-700 rounded px-3 py-2">
+<option value="24">24 hours</option><option value="72">3 days</option><option value="168">7 days</option>
+</select></label><button id="refresh" class="ml-2 px-4 py-2 rounded border border-teal-400 text-teal-300">Refresh</button></div>
+</div>
+
+<div id="error" class="mt-4 text-red-300"></div>
+<section class="grid lg:grid-cols-4 gap-4 mt-8">
+<div class="rounded-xl bg-slate-800 border border-slate-700 p-5"><div class="text-sm text-slate-400">Current emotion</div><div id="current" class="text-3xl font-bold mt-3">—</div><div id="currentMeta" class="text-sm text-slate-400 mt-2">—</div></div>
+<div class="lg:col-span-3 rounded-xl bg-slate-800 border border-slate-700 p-5"><div class="text-sm text-slate-400">Modalities</div><div id="modalities" class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-4"></div></div>
+</section>
+
+<section class="grid lg:grid-cols-2 gap-6 mt-6">
+<div class="rounded-xl bg-slate-800 border border-slate-700 p-5"><h2 class="font-semibold">Emotion distribution</h2><div class="h-72 mt-4"><canvas id="distribution"></canvas></div></div>
+<div class="rounded-xl bg-slate-800 border border-slate-700 p-5"><h2 class="font-semibold">Timeline</h2><div class="h-72 mt-4"><canvas id="timeline"></canvas></div></div>
+</section>
+
+<section class="grid lg:grid-cols-2 gap-6 mt-6">
+<div class="rounded-xl bg-slate-800 border border-slate-700 p-5"><h2 class="font-semibold">Risk trend</h2><div class="h-72 mt-4"><canvas id="risk"></canvas></div></div>
+<div class="rounded-xl bg-slate-800 border border-slate-700 p-5"><h2 class="font-semibold">Alert history</h2><div id="alerts" class="mt-4 space-y-3 max-h-72 overflow-auto"></div></div>
+</section>
+</main>
+<script type="module" src="../js/analytics.js"></script>
+</body></html>

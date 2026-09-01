@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ApexEmotion — Emotion Fusion</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="../css/global.css" />
+</head>
+<body class="min-h-screen bg-slate-900 text-white">
+<header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur border-b border-slate-700">
+  <div class="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
+    <a href="./index.html" class="text-xl font-bold">ApexEmotion</a>
+    <nav class="hidden md:flex gap-5 text-sm">
+      <a class="hover:text-teal-300" href="./index.html">Home</a>
+        <a class="hover:text-teal-300" href="./chat.html">Chat</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./memory.html">Memory</a>
+        <a class="hover:text-teal-300" href="./risk.html">Risk Engine</a>
+      <a class="hover:text-teal-300" href="./alerts.html">Alerts</a>
+<a class="hover:text-teal-300" href="./analytics.html">Analytics</a>
+        <a class="hover:text-teal-300" href="./voice-companion.html">Voice Companion</a>
+        <a class="hover:text-teal-300" href="./login.html">Login</a>
+        <a class="hover:text-teal-300" href="./register.html">Register</a>
+</nav>
+  </div>
+</header>
+
+<main class="max-w-5xl mx-auto px-4 py-10">
+  <h1 class="text-3xl font-bold">🧠 Multimodal Emotion Fusion</h1>
+  <p class="mt-2 text-slate-300">Combine already-produced text, voice, and facial emotion results into one transparent emotional state.</p>
+
+  <section class="mt-6 grid md:grid-cols-3 gap-4">
+    <div class="p-5 rounded-xl bg-slate-800/70 border border-slate-700">
+      <h2 class="font-semibold">📝 Text</h2>
+      <select id="textEmotion" class="mt-4 w-full rounded-lg bg-slate-900 border border-slate-600 p-2">
+        <option value="">Not available</option>
+        <option>joy</option><option>sadness</option><option>anger</option><option>fear</option>
+        <option>disgust</option><option>surprise</option><option>neutral</option>
+      </select>
+      <input id="textConfidence" type="number" min="0" max="100" step="1" placeholder="Confidence %" class="mt-3 w-full rounded-lg bg-slate-900 border border-slate-600 p-2" disabled />
+      <label class="mt-3 flex items-center gap-2 text-sm text-slate-400"><input id="textEnabled" type="checkbox" /> Use text result</label>
+    </div>
+
+    <div class="p-5 rounded-xl bg-slate-800/70 border border-slate-700">
+      <h2 class="font-semibold">🎙 Voice</h2>
+      <select id="voiceEmotion" class="mt-4 w-full rounded-lg bg-slate-900 border border-slate-600 p-2">
+        <option value="">Not available</option>
+        <option>joy</option><option>sadness</option><option>anger</option><option>fear</option>
+        <option>disgust</option><option>surprise</option><option>neutral</option>
+      </select>
+      <input id="voiceConfidence" type="number" min="0" max="100" step="1" placeholder="Confidence %" class="mt-3 w-full rounded-lg bg-slate-900 border border-slate-600 p-2" disabled />
+      <label class="mt-3 flex items-center gap-2 text-sm text-slate-400"><input id="voiceEnabled" type="checkbox" /> Use voice result</label>
+    </div>
+
+    <div class="p-5 rounded-xl bg-slate-800/70 border border-slate-700">
+      <h2 class="font-semibold">📷 Face</h2>
+      <select id="faceEmotionInput" class="mt-4 w-full rounded-lg bg-slate-900 border border-slate-600 p-2">
+        <option value="">Not available</option>
+        <option>joy</option><option>sadness</option><option>anger</option><option>fear</option>
+        <option>disgust</option><option>surprise</option><option>neutral</option>
+      </select>
+      <input id="faceConfidenceInput" type="number" min="0" max="100" step="1" placeholder="Confidence %" class="mt-3 w-full rounded-lg bg-slate-900 border border-slate-600 p-2" disabled />
+      <label class="mt-3 flex items-center gap-2 text-sm text-slate-400"><input id="faceEnabled" type="checkbox" /> Use face result</label>
+    </div>
+  </section>
+
+  <section class="mt-6 p-5 rounded-xl bg-slate-800/70 border border-slate-700">
+    <div class="flex items-center justify-between gap-4 flex-wrap">
+      <div>
+        <h2 class="text-xl font-semibold">Fusion</h2>
+        <p class="text-sm text-slate-400 mt-1">Weights: Text 40% · Voice 30% · Face 30% (renormalized when missing)</p>
+      </div>
+      <button id="fuseBtn" class="px-5 py-3 rounded-lg bg-teal-500 text-slate-900 font-semibold">Fuse Emotions</button>
+    </div>
+    <p id="fusionStatus" class="mt-4 text-slate-400">Choose at least one existing modality result.</p>
+  </section>
+
+  <section id="fusionResult" class="hidden mt-6 p-6 rounded-xl bg-slate-800/70 border border-slate-700">
+    <p class="text-sm text-slate-400">FINAL EMOTIONAL STATE</p>
+    <div class="mt-2 flex items-end gap-3 flex-wrap">
+      <h2 id="finalEmotion" class="text-4xl font-bold">—</h2>
+      <span id="finalConfidence" class="text-xl text-teal-300">—</span>
+    </div>
+    <p id="modalityCount" class="mt-3 text-slate-300"></p>
+    <p id="agreement" class="mt-1 text-slate-400"></p>
+
+    <div class="mt-6 grid md:grid-cols-3 gap-3" id="modalityBreakdown"></div>
+  </section>
+
+  <section class="mt-6 p-5 rounded-xl bg-slate-800/70 border border-slate-700">
+    <h2 class="font-semibold">How fusion works</h2>
+    <p class="mt-2 text-sm text-slate-400">
+      Each modality contributes its configured weight multiplied by its actual confidence.
+      Missing modalities are removed and the active weights are renormalized. The result is an
+      engineering fusion confidence, not a calibrated clinical probability.
+    </p>
+  </section>
+</main>
+
+<script type="module" src="../js/fusion.js"></script>
+</body>
+</html>
